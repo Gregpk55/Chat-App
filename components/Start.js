@@ -79,31 +79,7 @@ const Start = ({ navigation }) => {
     </ImageBackground>
   );
 };
-// bckgrnd color name
-const Chat = ({ route }) => {
-  const { name, selectedColor } = route.params;
 
-  return (
-    <View style={[styles.container, { backgroundColor: selectedColor }]}>
-      <Text style={styles.chatTitle}>Chat</Text>
-      <Text style={styles.username}>{name}</Text>
-    </View>
-  );
-};
-
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Start"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="Start" component={Start} />
-        <Stack.Screen name="Chat" component={Chat} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
 
 const styles = StyleSheet.create({
   backgroundImage: {

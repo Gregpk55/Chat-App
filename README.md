@@ -37,4 +37,4 @@ Chat-App is a mobile chat application built using React Native, Expo, and Google
 
 
 ## Example Screenshot
-![Chat-App Screenshot](assets/READMEimg.png)
+<img src="assets/READMEimg.png" alt="Chat-App Screenshot" width="300">
