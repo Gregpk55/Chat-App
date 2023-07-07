@@ -27,13 +27,6 @@ Chat-App is a mobile chat application built using React Native, Expo, and Google
 - Chat interface and functionality provided by the Gifted Chat library.
 - Mobile-responsive design and styling.
 
-## Technical Requirements
-- React Native
-- Expo
-- Firebase (Firestore Database, Authentication, Cloud Storage)
-- Gifted Chat library
-- Node.js and npm
-
 
 
 ## Example Screenshot

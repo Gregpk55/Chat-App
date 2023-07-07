@@ -1,8 +1,31 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Platform, KeyboardAvoidingView } from 'react-native';
+import { Bubble, GiftedChat } from "react-native-gifted-chat";
 
 const Chat = ({ route, navigation }) => {
   const { name, selectedColor } = route.params;
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    const systemMessage = {
+      _id: 0,
+      text: `Welcome to the chat, ${name}!`,
+      createdAt: new Date(),
+      system: true,
+    };
+
+    const userMessage = {
+      _id: 1,
+      text: 'Hello, how are you?',
+      createdAt: new Date(),
+      user: {
+        _id: 2,
+        name: 'User',
+      },
+    };
+
+    setMessages([systemMessage, userMessage]); // set message
+  }, [name]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -10,32 +33,48 @@ const Chat = ({ route, navigation }) => {
     });
   }, [navigation, name]);
 
+  
+
   return (
     <View style={[styles.container, { backgroundColor: selectedColor }]}>
-       <Text style={styles.TXT}>Hello</Text>
-       <Text style={styles.chatTitle}>{name}</Text>
+      <GiftedChat
+        messages={messages}
+        renderBubble={renderBubble}
+        onSend={messages => setMessages(previousMessages => GiftedChat.append(previousMessages, messages))} 
+        user={{
+          _id: 1
+        }}
+      />
+      
+      { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null }
+      
     </View>
   );
 };
 
+const renderBubble = (props) => {
+  return (
+    <Bubble
+      {...props}
+      wrapperStyle={{
+        //chat bubble color
+        right: {
+          backgroundColor: "#000"
+        },
+        left: {
+          backgroundColor: "#FFF"
+        }
+      }}
+    />
+  );
+};
+
 const styles = StyleSheet.create({
+  //chat
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+   
   },
-  chatTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#FFFFFF',
-    marginBottom: 10,
-  },
-  TXT: {
-    fontSize: 16,
-    fontWeight: '300',
-    color: '#FFFFFF',
-  },
-
 });
 
 export default Chat;
