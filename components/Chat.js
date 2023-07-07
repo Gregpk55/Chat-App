@@ -12,8 +12,8 @@ const Chat = ({ route, navigation }) => {
 
   return (
     <View style={[styles.container, { backgroundColor: selectedColor }]}>
-      <Text style={styles.chatTitle}>{name}</Text>
-      <Text style={styles.TXT}>Hello</Text>
+       <Text style={styles.TXT}>Hello</Text>
+       <Text style={styles.chatTitle}>{name}</Text>
     </View>
   );
 };
