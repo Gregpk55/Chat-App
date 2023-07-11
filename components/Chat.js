@@ -1,49 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Platform, KeyboardAvoidingView } from 'react-native';
 import { Bubble, GiftedChat } from "react-native-gifted-chat";
+import { collection, addDoc, onSnapshot, query, orderBy } from "firebase/firestore";
 
-const Chat = ({ route, navigation }) => {
-  const { name, selectedColor } = route.params;
+//chat components + setting state
+const Chat = ({ db, storage, route, navigation }) => {
+  const { name, selectedColor, userID } = route.params;
   const [messages, setMessages] = useState([]);
 
+  //updating from firebase collections
   useEffect(() => {
-    const systemMessage = {
-      _id: 0,
-      text: `Welcome to the chat, ${name}!`,
-      createdAt: new Date(),
-      system: true,
-    };
-
-    const userMessage = {
-      _id: 1,
-      text: 'Hello, how are you?',
-      createdAt: new Date(),
-      user: {
-        _id: 2,
-        name: 'User',
-      },
-    };
-
-    setMessages([systemMessage, userMessage]); // set message
-  }, [name]);
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      title: name,
+    navigation.setOptions({ title: name });
+    const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newMessages = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          _id: doc.id,
+          text: data.text,
+          createdAt: data.createdAt.toDate(),
+          user: {
+            _id: data.user._id,
+            name: data.user.name,
+          },
+        };
+      });
+      setMessages(newMessages);
     });
-  }, [navigation, name]);
 
+    return () => unsubscribe();
+  }, []);
   
+ //new message submit
+  const onSend = (newMessages) => {
+    addDoc(collection(db, "messages"), newMessages[0]);
+  };
+ 
 
   return (
     <View style={[styles.container, { backgroundColor: selectedColor }]}>
       <GiftedChat
         messages={messages}
-        renderBubble={renderBubble}
-        onSend={messages => setMessages(previousMessages => GiftedChat.append(previousMessages, messages))} 
+        onSend={onSend}
         user={{
-          _id: 1
+          _id: userID,
+          name: name,
         }}
+        renderBubble={renderBubble}
       />
       
       { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null }
