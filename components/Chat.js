@@ -28,7 +28,11 @@ const Chat = ({ db, storage, route, navigation }) => {
       setMessages(newMessages);
     });
 
-    return () => unsubscribe();
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    }
   }, []);
   
  //new message submit
