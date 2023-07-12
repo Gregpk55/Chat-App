@@ -10,13 +10,13 @@ import {
   TextInput,
 } from "react-native";
 
+
 const Start = ({ navigation }) => {
-  const auth = getAuth ();
+  const auth = getAuth();
   const [name, setName] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
 
-
-//selects color & highlights chosen
+  //selects color & highlights chosen + caches selected color
   const ColorOption = ({ color, isSelected }) => {
     return (
       <TouchableOpacity
@@ -25,26 +25,34 @@ const Start = ({ navigation }) => {
           { backgroundColor: color },
           isSelected && styles.selectedColorOption,
         ]}
-        onPress={() => setSelectedColor(color)}
+        onPress={() => {
+          setSelectedColor(color);
+        }}
       >
         {isSelected && <View style={styles.selectedColorRing} />}
       </TouchableOpacity>
     );
   };
 
-//sign in
+  //sign in
   const signInUser = () => {
     signInAnonymously(auth)
-      .then(result => {
-        navigation.navigate("Chat", {userID: result.user.uid, name, selectedColor });
+      .then((result) => {
+        navigation.navigate("Chat", {
+          userID: result.user.uid,
+          name,
+          selectedColor: selectedColor
+        });
         Alert.alert("Signed in Successfully!");
       })
       .catch((error) => {
         Alert.alert("Unable to sign in, try later again.");
-      })
-  }
+      });
+  };
 
-//render components
+  
+
+  //render components
   return (
     <ImageBackground
       source={require("../assets/BackgroundImage.png")}
@@ -60,7 +68,7 @@ const Start = ({ navigation }) => {
             placeholder="Type your username here"
             placeholderTextColor="#757083"
           />
-          
+
           <Text style={styles.label}>Choose background color</Text>
           <View style={styles.colorOptionsContainer}>
             <ColorOption
@@ -89,7 +97,6 @@ const Start = ({ navigation }) => {
     </ImageBackground>
   );
 };
-
 
 const styles = StyleSheet.create({
   backgroundImage: {
