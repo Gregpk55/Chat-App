@@ -18,7 +18,7 @@ import { useNetInfo } from "@react-native-community/netinfo";
 import { useEffect } from "react";
 import { LogBox, Alert } from "react-native";
 import { getStorage } from "firebase/storage";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker'
 
 
 LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);

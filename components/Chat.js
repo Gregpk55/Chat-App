@@ -115,7 +115,7 @@ const renderCustomView = (props) => {
         renderInputToolbar={renderInputToolbar}
         renderActions={renderCustomActions}
         renderCustomView={renderCustomView}
-        onSend={onSend}
+        onSend={messages => onSend (messages)}
         user={{
           _id: userID,
           name: name,
