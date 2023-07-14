@@ -23,13 +23,17 @@ const Chat = ({ db, route, navigation, isConnected, storage }) => {
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const newMessages = snapshot.docs.map((doc) => {
           const data = doc.data();
-          return {
-            _id: doc.id,
-            text: data.text,
-            createdAt: data.createdAt.toDate(),
-            user: {
-              _id: data.user._id,
-              name: data.user.name,
+          // Exclude non-serializable fields 
+  const { createdAt, ...serializableData } = data;
+
+  return {
+    _id: doc.id,
+    text: data.text,
+    createdAt: createdAt.toDate(),
+    ...serializableData,
+    user: {
+      _id: data.user._id,
+      name: data.user.name,
             },
           };
         });
@@ -63,8 +67,7 @@ const Chat = ({ db, route, navigation, isConnected, storage }) => {
         console.log("Error loading cached messages:", error);
       });
   }
- 
- }, [isConnected]);
+}, [isConnected]);
 
 //new message submit
 const onSend = (newMessages) => {
@@ -83,13 +86,14 @@ const renderInputToolbar = (props) => {
 };
 //CustomActions render
 const renderCustomActions = (props) => {
-  return <CustomActions storage={storage} {...props} />
+  return <CustomActions userID={userID} storage={storage} {...props} />
 };
  
 const renderCustomView = (props) => {
   const { currentMessage} = props;
   if (currentMessage.location) { //renders map
     return (
+      
         <MapView
           style={{width: 150,
             height: 100,
@@ -119,6 +123,7 @@ const renderCustomView = (props) => {
         user={{
           _id: userID,
           name: name,
+          
         }}
         
       />
