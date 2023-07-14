@@ -31,3 +31,20 @@ Chat-App is a mobile chat application built using React Native, Expo, and Google
 
 ## Example Screenshot
 <img src="assets/READMEimg.png" alt="Chat-App Screenshot" width="300">
+
+
+# Follow these steps to set up the Chat App:
+
+## Step 1: Clone the Repository
+- git clone https://github.com/Gregpk55/Chat-App.git
+
+## Step 2: Configure Firebase
+- Create a new Firebase project at [https://console.firebase.google.com/](https://console.firebase.google.com/).
+- Copy the Firebase configuration object (`apiKey`, `authDomain`, `projectId`, `storageBucket`, `messagingSenderId`, `appId`).
+- Paste the configuration object in the appropriate location in the code.
+
+## Step 3: Set Up Expo
+- Install the Expo CLI globally.
+- Create an Expo Account and Log In.
+- Start the Expo development server (`expo start`).
+- Now you should have the Chat App running on your mobile device, connected to the Expo development server.

@@ -10,7 +10,6 @@ import {
   TextInput,
 } from "react-native";
 
-
 const Start = ({ navigation }) => {
   const auth = getAuth();
   const [name, setName] = useState("");
@@ -41,7 +40,7 @@ const Start = ({ navigation }) => {
         navigation.navigate("Chat", {
           userID: result.user.uid,
           name,
-          selectedColor: selectedColor
+          selectedColor: selectedColor,
         });
         Alert.alert("Signed in Successfully!");
       })
@@ -49,8 +48,6 @@ const Start = ({ navigation }) => {
         Alert.alert("Unable to sign in, try later again.");
       });
   };
-
-  
 
   //render components
   return (

@@ -6,7 +6,6 @@ import {
   enableNetwork,
 } from "firebase/firestore";
 
-
 // import screens
 import Start from "./components/Start";
 import Chat from "./components/Chat";
@@ -18,8 +17,6 @@ import { useNetInfo } from "@react-native-community/netinfo";
 import { useEffect } from "react";
 import { LogBox, Alert } from "react-native";
 import { getStorage } from "firebase/storage";
-
-
 
 LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);
 
@@ -46,9 +43,9 @@ const storage = getStorage(app);
 //Chat components that render UI + connection status
 const App = () => {
   const connectionStatus = useNetInfo();
-//checking status
+  //checking status
   console.log("Connection Status:", connectionStatus.isConnected);
-//online/offline
+  //online/offline
   useEffect(() => {
     if (connectionStatus.isConnected === false) {
       Alert.alert("Connection Lost");
@@ -58,20 +55,19 @@ const App = () => {
     }
   }, [connectionStatus.isConnected]);
 
-
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Start">
         <Stack.Screen name="Start" component={Start} />
-        <Stack.Screen
-          name="Chat"
-        >
-          {props => <Chat
-            isConnected={connectionStatus.isConnected}
-            db={db}
-            storage={storage}
-            {...props}
-          />}
+        <Stack.Screen name="Chat">
+          {(props) => (
+            <Chat
+              isConnected={connectionStatus.isConnected}
+              db={db}
+              storage={storage}
+              {...props}
+            />
+          )}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
